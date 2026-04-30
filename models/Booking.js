@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
 
+const flightSchema = new mongoose.Schema({
+  id: Number,
+  airline: String,
+  flightNumber: String,
+  from: String,
+  fromCode: String,
+  to: String,
+  toCode: String,
+  departure: String,
+  arrival: String,
+  duration: String,
+  price: Number,
+  seats: Number,
+  type: String,
+});
+
 const bookingSchema = new mongoose.Schema(
   {
     user: {
@@ -7,17 +23,7 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    flight: {
-      airline: String,
-      flightNumber: String,
-      from: String,
-      to: String,
-      departure: String,
-      arrival: String,
-      duration: String,
-      price: Number,
-      type: String,
-    },
+    flight: flightSchema,
     passengers: [
       {
         name: String,
