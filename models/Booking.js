@@ -16,6 +16,18 @@ const flightSchema = new mongoose.Schema({
   type: String,
 });
 
+const hotelSchema = new mongoose.Schema({
+  id: Number,
+  name: String,
+  location: String,
+  rating: Number,
+  price: Number,
+  originalPrice: Number,
+  roomType: String,
+  amenities: [String],
+  image: String,
+});
+
 const bookingSchema = new mongoose.Schema(
   {
     user: {
@@ -23,8 +35,24 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    bookingType: {
+      type: String,
+      enum: ["flight", "hotel"],
+      required: true,
+    },
     flight: flightSchema,
+    hotel: hotelSchema,
+    checkIn: String,
+    checkOut: String,
+    rooms: Number,
     passengers: [
+      {
+        name: String,
+        age: Number,
+        gender: String,
+      },
+    ],
+    guests: [
       {
         name: String,
         age: Number,

@@ -4,65 +4,52 @@ import authMiddleware from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Create booking
-// router.post("/", authMiddleware, async (req, res) => {
-//   try {
-//     const { flight, passengers, totalPrice } = req.body;
-
-//     // Generate unique booking ID
-//     const bookingId = "MMT" + Date.now().toString().slice(-8);
-
-//     const booking = await Booking.create({
-//       user: req.user.id,
-//       flight,
-//       passengers,
-//       totalPrice,
-//       bookingId,
-//     });
-
-//     res.status(201).json({
-//       message: "Booking confirmed!",
-//       booking,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// });
-
-
-
-// Create booking
-router.post("/", authMiddleware, async (req, res) => {
+// Create flight booking
+router.post("/flight", authMiddleware, async (req, res) => {
   try {
     const { flight, passengers, totalPrice } = req.body;
-    
-    console.log("Booking request received:", req.body); // ADD THIS
-    console.log("User from token:", req.user); // ADD THIS
-
     const bookingId = "MMT" + Date.now().toString().slice(-8);
 
     const booking = await Booking.create({
       user: req.user.id,
+      bookingType: "flight",
       flight,
       passengers,
       totalPrice,
       bookingId,
     });
 
-    console.log("Booking created:", booking); // ADD THIS
-
-    res.status(201).json({
-      message: "Booking confirmed!",
-      booking,
-    });
+    res.status(201).json({ message: "Flight booking confirmed!", booking });
   } catch (error) {
-    console.log("Booking error:", error.message); // ADD THIS
+    console.log("Booking error:", error.message);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
+// Create hotel booking
+router.post("/hotel", authMiddleware, async (req, res) => {
+  try {
+    const { hotel, guests, checkIn, checkOut, rooms, totalPrice } = req.body;
+    const bookingId = "MMT" + Date.now().toString().slice(-8);
 
+    const booking = await Booking.create({
+      user: req.user.id,
+      bookingType: "hotel",
+      hotel,
+      guests,
+      checkIn,
+      checkOut,
+      rooms,
+      totalPrice,
+      bookingId,
+    });
 
+    res.status(201).json({ message: "Hotel booking confirmed!", booking });
+  } catch (error) {
+    console.log("Booking error:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 // Get my bookings
 router.get("/my", authMiddleware, async (req, res) => {
