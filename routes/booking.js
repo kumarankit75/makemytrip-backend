@@ -63,4 +63,29 @@ router.get("/my", authMiddleware, async (req, res) => {
   }
 });
 
+// Cancel booking
+router.put("/cancel/:id", authMiddleware, async (req, res) => {
+  try {
+    const booking = await Booking.findOne({
+      _id: req.params.id,
+      user: req.user.id,
+    });
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    if (booking.status === "cancelled") {
+      return res.status(400).json({ message: "Booking already cancelled" });
+    }
+
+    booking.status = "cancelled";
+    await booking.save();
+
+    res.status(200).json({ message: "Booking cancelled successfully!", booking });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 export default router;
