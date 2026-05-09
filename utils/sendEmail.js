@@ -1,12 +1,25 @@
-import sgMail from "@sendgrid/mail";
+import dotenv from "dotenv";
+dotenv.config();
+import nodemailer from "nodemailer";
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 const sendEmail = async ({ to, subject, html }) => {
   try {
-    await sgMail.send({
+    const info = await transporter.sendMail({
+      from: `"MakeMyTrip" <${process.env.GMAIL_USER}>`,
       to,
-      from: process.env.SENDGRID_FROM,
       subject,
       html,
     });
