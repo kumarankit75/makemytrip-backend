@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.js";
 import bookingRoutes from "./routes/booking.js";
 import userRoutes from "./routes/user.js";
 import adminRoutes from "./routes/admin.js";
+import paymentRoutes from "./routes/payment.js";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/payment", paymentRoutes);
 
 app.get("/", (req, res) => {
   res.send("MakeMyTrip API running!");

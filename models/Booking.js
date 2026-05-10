@@ -45,20 +45,8 @@ const bookingSchema = new mongoose.Schema(
     checkIn: String,
     checkOut: String,
     rooms: Number,
-    passengers: [
-      {
-        name: String,
-        age: Number,
-        gender: String,
-      },
-    ],
-    guests: [
-      {
-        name: String,
-        age: Number,
-        gender: String,
-      },
-    ],
+    passengers: [{ name: String, age: Number, gender: String }],
+    guests: [{ name: String, age: Number, gender: String }],
     totalPrice: Number,
     status: {
       type: String,
@@ -69,11 +57,15 @@ const bookingSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    paymentId: {
+      type: String,
+      default: "",
+    },
     paymentStatus: {
-  type: String,
-  enum: ["paid", "pending", "failed"],
-  default: "paid",
-},
+      type: String,
+      enum: ["paid", "pending", "failed"],
+      default: "paid",
+    },
   },
   { timestamps: true }
 );
